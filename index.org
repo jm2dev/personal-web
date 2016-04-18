@@ -1,0 +1,7 @@
+#+TITLE: jm2dev
+
+I am a software engineer working and living in London.
+
+I am passionate about open source and open data.
+
+You can read my [[file:blog/index.org][posts]] or follow me on [[http://twitter.com/jm2dev][twitter]].

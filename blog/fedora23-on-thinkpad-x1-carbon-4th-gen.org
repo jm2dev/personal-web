@@ -1,0 +1,259 @@
+#+TITLE: Fedora 23 on thinkpad x1 carbon 4th generation
+#+AUTHOR: José Miguel
+
+* Overview
+
+My settings to set up a fedora 23 workstation to develop JVM applications.
+
+* Tools
+
+** git
+#+BEGIN_SRC shell
+sudo dnf -y install git
+#+END_SRC
+
+Follow further instructions from [[https://fedoraproject.org/wiki/Git_quick_reference][here]].
+
+** emacs
+
+#+BEGIN_SRC shell
+sudo dnf -y install emacs
+#+END_SRC
+
+And install [[https://github.com/bbatsov/prelude][prelude]].
+
+I followed [[https://www.emacswiki.org/emacs/EmacsAsDaemon][these instructions]] to control emacs daemon via systemd.
+
+NOTE: add customizations like eshell prompt, cyberpunk theme.
+
+** zsh
+
+#+BEGIN_SRC shell
+sudo dnf -y install zsh zsh-html zsh-lovers
+chsh -s /usr/bin/zsh
+#+END_SRC
+
+And my .zshrc file:
+
+#+BEGIN_SRC
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=10000
+SAVEHIST=10000
+setopt autocd
+unsetopt beep
+bindkey -e
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/jm/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+# powerline
+if [ -f `which powerline-daemon` ]; then
+    powerline-daemon -q
+    POWERLINE_ZSH_CONTINUATION=1
+    POWERLINE_ZSH_SELECT=1
+    . /usr/share/powerline/zsh/powerline.zsh
+fi
+
+alias et='emacsclient -t'
+alias ec='emacsclient -c'
+#+END_SRC
+
+** tmux
+
+#+BEGIN_SRC shell
+sudo dnf -y install tmux
+#+END_SRC
+
+See instructions for [[https://fedoramagazine.org/add-power-terminal-powerline/][powerline]].
+
+** surfraw
+
+#+BEGIN_SRC shell
+sudo dnf -y install surfraw
+#+END_SRC
+
+** pass
+
+I followed this [[https://fedoramagazine.org/gpg-key-management-part-1/][instructions to create my gpg2 key]].
+
+#+BEGIN_SRC shell
+gpg2 --list-keys
+
+pub   rsa4096/4DD75366 2016-03-01 [SC] [expires: 2019-03-01]
+uid         [ultimate] José Miguel Martínez Carrasco <jm@0pt1mates.com>
+sub   rsa4096/8D7B6DA4 2016-03-01 [E] [expires: 2019-03-01]
+
+pass init "4DD75366"
+#+END_SRC
+
+To share it with another computer, export private key and copy .password-store directory to new machine:
+
+#+BEGIN_SRC shell
+gpg2 --export-secret-keys --armor KEY_ID > /tmp/KEY_ID.asc
+gpg2 --import /tmp/KEY_ID.asc
+gpg2 --edit-key KEY_ID
+> trust
+// ultimate
+> save
+// key_id is 4DD75366
+cp -r PATH_TO_OLD_PASSWORD_STORE ~/.password-store
+pass ls WHATEVER
+#+END_SRC
+
+See [[https://fedoraproject.org/wiki/Creating_GPG_Keys][creating GPG keys in fedora]] for details.
+
+** chromium
+
+Although I prefer firefox, just visit [[https://copr.fedorainfracloud.org/coprs/spot/chromium/]].
+
+** redshift
+
+Follow instructions as provided in their [[http://jonls.dk/redshift/][web site]].
+
+** jq
+
+The json parser, similar to xmllint.
+
+** pandoc
+
+#+BEGIN_SRC shell
+sudo dnf install -y pandoc
+#+END_SRC
+
+** haskell
+
+#+BEGIN_SRC shell
+sudo dnf install haskell-platform
+#+END_SRC
+
+** zakhura
+
+Lightweight document viewer:
+
+#+BEGIN_SRC shell
+sudo dnf install zakhura zakura-plugins-all
+#+END_SRC
+
+* Setup
+
+In order to replace SDDM account avatar:
+
+#+BEGIN_SRC shell
+sudo cp my_icon.png /usr/share/sddm/faces/{username}.face.icon
+#+END_SRC
+
+Although it doesn't seem to work as expected.
+
+Follow instructions in [[https://developer.fedoraproject.org/tools][Fedora Developer Portal]] to install devassistant and docker tools.
+
+#+BEGIN_SRC shell
+sudo dnf install -y devassistant docker
+#+END_SRC
+
+And visit languages and databases to section to install java:
+
+#+BEGIN_SRC shell
+sudo dnf install -y java-1.8.0-openjdk-devel maven gradle
+sudo dnf install -y saxon saxon-demo saxon-manual saxon-javadoc saxon-scripts
+#+END_SRC
+
+Yes, I use xslt2 quite frequently.
+
+Finally to have intellij idea community edition, I followed this [[https://technoref.wordpress.com/2016/01/19/install-idea-intellij-in-fedora-23/][instructions]]. But we really want the desktop file under /usr/share/applications.
+
+To change hostname use hostnamectl command as instructed [[http://www.server-world.info/en/note?os%3DFedora_23&p%3Dhostname][here]].
+
+** i3wm
+
+I followed the instructions provided in [[https://fedoramagazine.org/getting-started-i3-window-manager/][fedora magazine]]. Additionally to have a working bluetooth mouse:
+
+#+BEGIN_SRC shell
+sudo dnf install blueman
+#+END_SRC
+
+The default configuration is fine, I just added the following lines:
+
+#+BEGIN_SRC shell
+font pango:DejaVu Sans Mono 8
+
+# start a terminal
+#bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec st -f "Inconsolata:size=13"
+
+# start dmenu (a program launcher)
+# bindsym $mod+d exec dmenu_run
+# There also is the (new) i3-dmenu-desktop which only displays applications
+# shipping a .desktop file. It is a wrapper around dmenu, so you need that
+# installed.
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
+# Start some util apps
+exec --no-startup-id feh --bg-fill /home/jm/.local/share/wallpapers/146095-Space0.jpg                   # set wallpaper
+exec --no-startup-id /usr/bin/blueman-applet                                                            # Bluetooth Manager
+exec --no-startup-id setxkbmap -layout us -variant altgr-intl -option compose:rctrl -option ctrl:nocaps # to have accents
+exec --no-startup-id conky                                                                              # conky
+#+END_SRC
+** Printer
+
+In order to configure my all in one hp photosmart c4485 I used hplip-gui tool.
+
+Additionally I installed gimp and xsane utilities.
+
+#+BEGIN_SRC shell
+sudo dnf install hplip-gui gimp xsane xsane-gimp
+#+END_SRC
+
+** Sound and brightness
+
+Install xbindkeys and follow instructions from [[https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon][thinkpad x1 archwiki]].
+
+#+BEGIN_SRC shell
+sudo dnf install xbindkeys
+#+END_SRC
+
+And create .xbindkeysrc file with content:
+
+#+BEGIN_SRC
+"amixer -c 0 set Master 1dB-"
+  XF86AudioLowerVolume
+"amixer -c 0 set Master 1dB+"
+  XF86AudioRaiseVolume
+"xbacklight -dec 5"
+  XF86MonBrightnessDown
+"xbacklight -inc 5"
+  XF86MonBrightnessUp
+#+END_SRC
+* Programming
+
+My projects are stored under src directory, grouped by language.
+
+To develop scala based projects I use [[https://github.com/paulp/sbt-extras][sbt-extras]].
+
+** Intellij idea
+
+#+BEGIN_SRC shell
+sudo cp ideaIC-15.0.2.tar.gz /opt/
+cd /opt/
+sudo tar -xvf ideaIC-15.0.2.tar.gz
+ln -sf /opt/idea-IC-143.1184.17 /opt/idea
+#+END_SRC
+
+Run idea from the command line, follow instructions to create desktop entry and user script, under ~/bin.
+
+* References
+
+- http://home.fnal.gov/~neilsen/notebook/orgExamples/org-examples.html
+- http://orgmode.org/worg/org-tutorials/org4beginners.html
+- https://www.digitalocean.com/community/tutorials/how-to-use-the-emacs-editor-in-linux
+- https://fedoraproject.org/wiki/Systemd
+- https://www.freedesktop.org/wiki/Software/systemd/TipsAndTricks/
+
+For further inspection
+- http://superuser.com/questions/1012790/run-kde-applet-from-command-line-within-i3wm
+- https://gist.github.com/pfsmorigo/2635132
+- http://chenmingzhang.blogspot.co.uk/2013/09/use-i3wm-in-scientific-linux.html

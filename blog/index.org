@@ -1,0 +1,3 @@
+#+TITLE: jm2dev posts
+
+   + [[file:fedora23-on-thinkpad-x1-carbon-4th-gen.org][Fedora 23 on thinkpad x1 carbon 4th generation (2016-04-18)]]

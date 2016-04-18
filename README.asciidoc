@@ -1,0 +1,61 @@
+= Personal web site
+
+My personal web site developed using org-mode publishing feature.
+
+== Configuration
+
+The following code snippet must be present in your .emacs.d/init.el or as a prelude's emacs user in ./emacs.d/personal/preload/custom.el
+
+[code,lisp]
+---
+;; blog html publish
+(require 'ox-publish)
+(setq org-html-coding-system 'utf-8-unix)
+
+(setq org-publish-project-alist
+      '(("jm2dev-static"
+         :base-directory "~/src/orgmode/jm2dev-web/"
+         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|otf"
+         :publishing-directory "~/src/public_html/www.jm2dev.eu"
+         :publishing-function org-publish-attachment
+         :recursive t)
+
+        ("jm2dev-blog"
+         :base-directory "~/src/orgmode/jm2dev-web/blog"
+         :base-extension "org"
+         :publishing-directory "~/src/public_html/www.jm2dev.eu/blog"
+         :publishing-function org-html-publish-to-html
+         :section-numbers nil
+         :with-toc nil
+         :recursive t
+         :auto-sitemap t
+         :sitemap-filename "index.org"
+         :sitemap-title "jm2dev posts"
+         :sitemap-sort-files anti-chronologically
+         :sitemap-file-entry-format "%t (%d)" ;write title and date in sitemap
+         :language "en"
+         :html-head-include-default-style nil ;Disable the default css style
+         :html-head-include-scripts nil ;Disable the default javascript snippet
+         :html-head  "<link rel='stylesheet' type='text/css' href='../css/style.css' />"
+         :html-head-extra "<meta name='viewport' content='width=device-width, initial-scale=1.0' />"
+         :html-preamble "<div class='nav'><ul><li><a href='../index.html'>Home</a></li><li><a href='index.html'>Blog</a></li><li><a href='http://github.com/jm2dev'>GitHub</a></li><li><a href='http://twitter.com/jm2dev'>Twitter</a></li></ul></div>")
+
+        ("jm2dev-home"
+         :base-directory "~/src/orgmode/jm2dev-web"
+         :base-extension "org"
+         :publishing-directory "~/src/public_html/www.jm2dev.eu"
+         :publishing-function org-html-publish-to-html
+         :section-numbers nil
+         :with-toc nil
+         :language "en"
+         :html-head-include-default-style nil ;Disable the default css style
+         :html-head-include-scripts nil ;Disable the default javascript snippet
+         :html-head  "<link rel='stylesheet' type='text/css' href='./css/style.css' />"
+         :html-head-extra "<meta name='viewport' content='width=device-width, initial-scale=1.0' />"
+         :html-preamble "<div class='nav'><ul><li><a href='index.html'>Home</a></li><li><a href='./blog/index.html'>Blog</a></li><li><a href='http://github.com/jm2dev'>GitHub</a></li><li><a href='http://twitter.com/jm2dev'>Twitter</a></li></ul></div>")
+
+        ("jm2dev-web"
+         :components ("jm2dev-home" "jm2dev-blog" "jm2dev-static"))
+        ))
+---
+
