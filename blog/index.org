@@ -1,3 +1,5 @@
 #+TITLE: jm2dev posts
 
-   + [[file:fedora23-on-thinkpad-x1-carbon-4th-gen.org][Fedora 23 on thinkpad x1 carbon 4th generation (2016-04-18)]]
+   + [[file:fedora23-on-thinkpad-x1-carbon-4th-gen.org][Fedora 23 on thinkpad x1 carbon 4th generation (2016-05-04)]]
+   + [[file:python3-virtual-environments-on-fedora.org][Python3 and virtual environments on fedora 23 (2016-05-01)]]
+   + [[file:scala-tdd-katas-with-ensime-and-emacs.org][scala-tdd-katas-with-ensime-and-emacs (2016-04-18)]]

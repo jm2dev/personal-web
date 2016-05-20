@@ -1,5 +1,4 @@
 #+TITLE: Fedora 23 on thinkpad x1 carbon 4th generation
-#+AUTHOR: José Miguel
 
 * Overview
 
@@ -8,7 +7,7 @@ My settings to set up a fedora 23 workstation to develop JVM applications.
 * Tools
 
 ** git
-#+BEGIN_SRC shell
+#+BEGIN_SRC sh
 sudo dnf -y install git
 #+END_SRC
 
@@ -16,7 +15,7 @@ Follow further instructions from [[https://fedoraproject.org/wiki/Git_quick_refe
 
 ** emacs
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC sh
 sudo dnf -y install emacs
 #+END_SRC
 
@@ -28,7 +27,7 @@ NOTE: add customizations like eshell prompt, cyberpunk theme.
 
 ** zsh
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC sh
 sudo dnf -y install zsh zsh-html zsh-lovers
 chsh -s /usr/bin/zsh
 #+END_SRC
@@ -65,7 +64,7 @@ alias ec='emacsclient -c'
 
 ** tmux
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC sh
 sudo dnf -y install tmux
 #+END_SRC
 
@@ -73,7 +72,7 @@ See instructions for [[https://fedoramagazine.org/add-power-terminal-powerline/]
 
 ** surfraw
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC sh
 sudo dnf -y install surfraw
 #+END_SRC
 
@@ -81,7 +80,7 @@ sudo dnf -y install surfraw
 
 I followed this [[https://fedoramagazine.org/gpg-key-management-part-1/][instructions to create my gpg2 key]].
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC sh
 gpg2 --list-keys
 
 pub   rsa4096/4DD75366 2016-03-01 [SC] [expires: 2019-03-01]
@@ -93,7 +92,7 @@ pass init "4DD75366"
 
 To share it with another computer, export private key and copy .password-store directory to new machine:
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC sh
 gpg2 --export-secret-keys --armor KEY_ID > /tmp/KEY_ID.asc
 gpg2 --import /tmp/KEY_ID.asc
 gpg2 --edit-key KEY_ID
@@ -121,13 +120,13 @@ The json parser, similar to xmllint.
 
 ** pandoc
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC sh
 sudo dnf install -y pandoc
 #+END_SRC
 
 ** haskell
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC sh
 sudo dnf install haskell-platform
 #+END_SRC
 
@@ -135,7 +134,7 @@ sudo dnf install haskell-platform
 
 Lightweight document viewer:
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC sh
 sudo dnf install zakhura zakura-plugins-all
 #+END_SRC
 
@@ -143,7 +142,7 @@ sudo dnf install zakhura zakura-plugins-all
 
 In order to replace SDDM account avatar:
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC sh
 sudo cp my_icon.png /usr/share/sddm/faces/{username}.face.icon
 #+END_SRC
 
@@ -151,13 +150,13 @@ Although it doesn't seem to work as expected.
 
 Follow instructions in [[https://developer.fedoraproject.org/tools][Fedora Developer Portal]] to install devassistant and docker tools.
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC sh
 sudo dnf install -y devassistant docker
 #+END_SRC
 
 And visit languages and databases to section to install java:
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC sh
 sudo dnf install -y java-1.8.0-openjdk-devel maven gradle
 sudo dnf install -y saxon saxon-demo saxon-manual saxon-javadoc saxon-scripts
 #+END_SRC
@@ -172,13 +171,13 @@ To change hostname use hostnamectl command as instructed [[http://www.server-wor
 
 I followed the instructions provided in [[https://fedoramagazine.org/getting-started-i3-window-manager/][fedora magazine]]. Additionally to have a working bluetooth mouse:
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC sh
 sudo dnf install blueman
 #+END_SRC
 
 The default configuration is fine, I just added the following lines:
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC sh
 font pango:DejaVu Sans Mono 8
 
 # start a terminal
@@ -204,7 +203,7 @@ In order to configure my all in one hp photosmart c4485 I used hplip-gui tool.
 
 Additionally I installed gimp and xsane utilities.
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC sh
 sudo dnf install hplip-gui gimp xsane xsane-gimp
 #+END_SRC
 
@@ -212,7 +211,7 @@ sudo dnf install hplip-gui gimp xsane xsane-gimp
 
 Install xbindkeys and follow instructions from [[https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon][thinkpad x1 archwiki]].
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC sh
 sudo dnf install xbindkeys
 #+END_SRC
 
@@ -236,7 +235,7 @@ To develop scala based projects I use [[https://github.com/paulp/sbt-extras][sbt
 
 ** Intellij idea
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC sh
 sudo cp ideaIC-15.0.2.tar.gz /opt/
 cd /opt/
 sudo tar -xvf ideaIC-15.0.2.tar.gz

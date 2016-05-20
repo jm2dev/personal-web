@@ -1,0 +1,67 @@
+#+TITLE: Python3 and virtual environments on fedora 23
+
+* Overview
+
+This post summarises my learnings on learning python3 using a tdd approach with katas.
+
+Having a java background I wanted to apply my crafted workflow for python3, creating a projet, creating test, fixing test, refactoring etc.
+
+* Requirements
+
+- fedora linux 23
+- python3
+
+#+BEGIN_SRC shell
+sudo dnf install python3 python3-virtualenv python-virtualenvwrapper
+sudo pip3 install virtualenvwrapper
+#+END_SRC
+
+#+BEGIN_SRC shell
+# .zshrc virtualwrapper
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/src/python
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv-3.4
+#+END_SRC
+
+* Setup
+
+#+BEGIN_SRC shell
+cd ~/src/python
+mkvirtualenv roman-numerals-kata
+workon roman-numerals-kata
+#+END_SRC
+
+* Spacemacs and python
+
+I've just started using [[http://spacemacs.org/][Spacemacs]] as my main editor and followed instructions to activate python layer.
+
+# expand my setup
+
+I keep virtual environments and projects in different locations, I don't know if it's a good idea.
+
+#+BEGIN_SRC shell
+cd ~/src/python
+mkdir roman-numerals-kata
+cd roman-numerals-kata
+touch test_roman_numerals.py
+#+END_SRC
+
+I open that test file and activate the virtual environment.
+
+#+BEGIN_SRC elisp
+pyvenv-activate
+pyvenv-workon
+#+END_SRC
+
+and I selected *roman-numerals-kata* as you can imagine, it should be listed.
+
+Then I can run tests with the combination "ALT + return t a" or the elisp function *pytest-all".
+
+Alternatively "ALT + return t m" to run test for module.
+
+* References
+
+- [[http://virtualenvwrapper.readthedocs.io/en/latest/index.html]]
+- [[http://stackoverflow.com/questions/29149853/no-module-named-virtualenvwrapper]]
+
